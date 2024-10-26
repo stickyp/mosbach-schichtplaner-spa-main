@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benutzer erstellen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigationsleiste -->
+    <nav>
+        <a href="index.html">Kalender</a>
+        <a href="createUser.html">Benutzer erstellen</a>
+        <a href="updateUser.html">Benutzer aktualisieren</a>
+        <a href="deleteUser.html">Benutzer löschen</a>
+        <a href="createEventForm.html">Event erstellen</a>
+        <a href="updateEventForm.html">Event aktualisieren</a>
+        <a href="deleteEventForm.html">Event löschen</a>
+        <a href="login.html">Login</a>
+        <a href="logout.html">Logout</a>
+    </nav>
+
+    <!-- Container für das Formular, um es zentrieren zu können -->
+    <div class="form-container">
+        <h2>Neuen Benutzer erstellen</h2>
+        <form id="createUserForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="role">Rolle:</label>
+            <select id="role" name="role">
+                <option value="admin">Admin</option>
+                <option value="user">Benutzer</option>
+            </select>
+
+            <button type="submit">Benutzer erstellen</button>
+        </form>
+    </div>
+
+    <script src="createUser.js"></script>
+</body>
+
+</html>

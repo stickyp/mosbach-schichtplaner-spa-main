@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event aktualisieren</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <body>
+        <!-- Navigationsleiste -->
+        <nav>
+            <a href="index.html">Kalender</a>
+            <a href="createUser.html">Benutzer erstellen</a>
+            <a href="updateUser.html">Benutzer aktualisieren</a>
+            <a href="deleteUser.html">Benutzer löschen</a>
+            <a href="createEventForm.html">Event erstellen</a>
+            <a href="updateEventForm.html">Event aktualisieren</a>
+            <a href="deleteEventForm.html">Event löschen</a>
+            <a href="login.html">Login</a>
+            <a href="logout.html">Logout</a>
+        </nav>
+
+    <h2>Event aktualisieren</h2>
+    <div class="form-container">
+    <form id="updateEventForm">
+        <label for="eventId">Event-ID:</label>
+        <input type="number" id="eventId" name="eventId" required><br><br>
+
+        <label for="title">Titel:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="startDateTime">Startdatum und Zeit:</label>
+        <input type="datetime-local" id="startDateTime" name="startDateTime" required><br><br>
+
+        <label for="endDateTime">Enddatum und Zeit:</label>
+        <input type="datetime-local" id="endDateTime" name="endDateTime" required><br><br>
+
+        <label for="assignedUserId">Zugewiesene Benutzer-ID:</label>
+        <input type="number" id="assignedUserId" name="assignedUserId" required><br><br>
+
+        <label for="location">Ort:</label>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label for="description">Beschreibung:</label>
+        <textarea id="description" name="description" required></textarea><br><br>
+
+        <button type="submit">Event aktualisieren</button>
+    </form>
+
+    <script src="updateEvent.js"></script>
+</body>
+</html>
