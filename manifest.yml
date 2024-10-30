@@ -1,0 +1,11 @@
+---
+applications:
+- name: EventCalender
+  instances: 1
+  host: EventCalender
+  path: .
+  buildpacks:
+    - php_buildpack
+  random-route: true
+  memory: 1G
+# buildpack: https://github.com/dmikusa-pivotal/cf-php-apache-buildpack.git
