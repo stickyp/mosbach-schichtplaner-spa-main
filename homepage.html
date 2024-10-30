@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Kalender für FoG</title>
+   
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHo-XAc95Hd1lHUTAQOzmro8-a63r6gsY" defer></script>
+    <style>
+        /* Wetter-Widget Styling */
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary" style="background-color: #e3f2fd;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Benutzerverwaltung Dropdown (Admin-only) -->
+                <li class="nav-item dropdown admin-only">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Benutzerverwaltung
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userMenu">
+                        <a class="dropdown-item" href="subpages/userOverview.html"><i class="fas fa-users"></i> Benutzerübersicht</a>
+                        <a class="dropdown-item" href="subpages/createUser.html"><i class="fas fa-user-plus"></i> Benutzer erstellen</a>
+                        <a class="dropdown-item" href="subpages/updateUser.html"><i class="fas fa-user-edit"></i> Benutzer aktualisieren</a>
+                        <a class="dropdown-item" href="subpages/deleteUser.html"><i class="fas fa-user-times"></i> Benutzer löschen</a>
+                    </div>
+                </li>
+    
+                <!-- Eventverwaltung Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="eventMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-calendar-alt"></i> Eventverwaltung
+                    </a>                         
+                    <div class="dropdown-menu" aria-labelledby="eventMenu">
+                        <a class="dropdown-item" href="subpages/getEvents.html"><i class="fas fa-calendar-check"></i> Events anzeigen</a>
+                        <a class="dropdown-item admin-only" href="subpages/createEventForm.html"><i class="fas fa-plus-circle"></i> Event erstellen</a>
+                        <a class="dropdown-item admin-only" href="subpages/updateEventForm.html"><i class="fas fa-edit"></i> Event aktualisieren</a>
+                        <a class="dropdown-item admin-only" href="subpages/deleteEventForm.html"><i class="fas fa-trash-alt"></i> Event löschen</a>
+                    </div>
+                </li>
+                
+                <!-- Abwesenheitsverwaltung Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="absenceMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-calendar-times"></i> Abwesenheitsverwaltung
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="absenceMenu">
+                        <a class="dropdown-item" href="subpages/absenceDashboard.html"><i class="fas fa-eye"></i> Abwesenheiten anzeigen</a>
+                        <a class="dropdown-item" href="subpages/createAbsence.html"><i class="fas fa-plus-circle"></i> Abwesenheit hinzufügen</a>
+                        <a class="dropdown-item" href="subpages/deleteAbsenceForm.html"><i class="fas fa-trash-alt"></i> Abwesenheit löschen</a>
+                    </div>
+                </li>
+
+                <!-- Logout -->
+                <li class="nav-item">
+                    <a class="nav-link" href="subpages/logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+
+
+
+
+
+    <!-- Kalenderbereich -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <h1 class="text-center">Event Kalender für FoG</h1>
+                <div id="calendar" class="my-3"></div>
+            </div>
+            <div class="col-12 col-md-4">
+                <!-- Wetter-Widget -->
+                <div class="weather-widget" id="weatherWidget">
+                    <h5>Wettervorhersage</h5>
+                    <p><strong>Datum:</strong> <span id="weather-date">-</span></p>
+                    <p><strong>Min Temperatur:</strong> <span id="weather-temp-min">-</span> °C</p>
+                    <p><strong>Max Temperatur:</strong> <span id="weather-temp-max">-</span> °C</p>
+                    <p><strong>Niederschlag:</strong> <span id="weather-precipitation">-</span> %</p>
+                    <p><strong>Windgeschwindigkeit:</strong> <span id="weather-wind-speed">-</span> km/h</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal für Event-Details -->
+    <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Event-Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Titel:</strong> <span id="modal-event-title"></span></p>
+                    <p><strong>Beschreibung:</strong> <span id="modal-event-description">Beschreibung des Events</span></p>
+                    <p><strong>Verantwortlicher Nutzer:</strong> <span id="modal-event-user">Max Mustermann</span></p>
+                    <p><strong>Startdatum:</strong> <span id="modal-event-start">2024-10-29 10:00</span></p>
+                    <p><strong>Enddatum:</strong> <span id="modal-event-end">2024-10-29 12:00</span></p>
+                    <p><strong>Ort:</strong> <span id="modal-event-location"></span></p>
+                    <div id="modal-map" style="width: 100%; height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript-Abhängigkeiten -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/absence.js"></script>
+</body>
+</html>

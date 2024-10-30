@@ -1,7 +1,16 @@
 document.getElementById("deleteUserForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    // Benutzer-ID erfassen
+    const token = localStorage.getItem("authToken");
+        const role = localStorage.getItem("userRole"); // Admin oder User
+
+        if (role !== 'admin') {
+            document.querySelectorAll('.admin-only').forEach(element => {
+                element.style.display = 'none';
+            });
+        }
+
+    //Benutzer-ID erfassen
     const userId = document.getElementById("userId").value;
 
     // JWT-Token aus localStorage holen
@@ -10,7 +19,7 @@ document.getElementById("deleteUserForm").addEventListener("submit", function(ev
     // Sicherheitsabfrage
     if (confirm(`Bist du sicher, dass du den Benutzer mit der ID ${userId} löschen möchtest?`)) {
         // Fetch-API-Request
-        fetch(`https://deine-api-url.com/users/${userId}`, {
+        fetch(`https://SchichtplanerBackend-delightful-hartebeest-ka.apps.01.cf.eu01.stackit.cloud/api/users/${userId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`

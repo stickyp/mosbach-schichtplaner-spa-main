@@ -1,6 +1,15 @@
 document.getElementById("deleteEventForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
+    const token = localStorage.getItem("authToken");
+        const role = localStorage.getItem("userRole"); // Admin oder User
+
+        if (role !== 'admin') {
+            document.querySelectorAll('.admin-only').forEach(element => {
+                element.style.display = 'none';
+            });
+        }
+
     // Event-ID erfassen
     const eventId = document.getElementById("eventId").value;
 
@@ -10,7 +19,7 @@ document.getElementById("deleteEventForm").addEventListener("submit", function(e
     // Sicherheitsabfrage
     if (confirm(`Bist du sicher, dass du das Event mit der ID ${eventId} löschen möchtest?`)) {
         // Fetch-API-Request
-        fetch(`https://deine-api-url.com/events/${eventId}`, {
+        fetch(`https://SchichtplanerBackend-delightful-hartebeest-ka.apps.01.cf.eu01.stackit.cloud/api//events/${eventId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`

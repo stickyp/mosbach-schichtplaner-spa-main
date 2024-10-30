@@ -3,35 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
- <!-- Navigationsleiste -->
- <nav>
-    <a href="index.html">Kalender</a>
-    <a href="createUser.html">Benutzer erstellen</a>
-    <a href="updateUser.html">Benutzer aktualisieren</a>
-    <a href="deleteUser.html">Benutzer löschen</a>
-    <a href="createEventForm.html">Event erstellen</a>
-    <a href="updateEventForm.html">Event aktualisieren</a>
-    <a href="deleteEventForm.html">Event löschen</a>
-    <a href="login.html">Login</a>
-    <a href="logout.html">Logout</a>
-</nav>
     <title>Events anzeigen</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/style.css">
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHo-XAc95Hd1lHUTAQOzmro8-a63r6gsY&libraries=places&callback=initmap" defer></script>
+
 </head>
-<body>
-    <div class="form-container">
-    <h2>Events anzeigen</h2>
 
-    <!-- Auswahl für alle Events oder Events für einen bestimmten Benutzer -->
-    <label for="userId">Events für Benutzer-ID anzeigen (leer lassen für alle Events):</label>
-    <input type="number" id="userId" placeholder="Benutzer-ID eingeben"><br><br>
-    <button onclick="fetchEvents()">Events laden</button>
+    <body>
+         <!-- Navigationsleiste -->
+         <nav class="navbar navbar-dark bg-primary" style="background-color: #e3f2fd;">
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="navbar-toggler-icon"></span>
+             </button>
 
-    <!-- Container für die Event-Darstellung -->
-    <div id="eventsContainer">
-        <p>Events werden hier angezeigt...</p>
+             <div class="collapse navbar-collapse" id="navbarNav">
+                 <ul class="navbar-nav ml-auto">
+                             <li class="nav-item">
+                                 <a class="nav-link" href="../homepage.html"><i class="fas fa-home"></i> Home</a>
+                             </li>
+                     <!-- Benutzerverwaltung Dropdown (Admin-only) -->
+                     <li class="nav-item dropdown admin-only">
+                         <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             <i class="fas fa-user"></i> Benutzerverwaltung
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="userMenu">
+                             <a class="dropdown-item" href="userOverview.html"><i class="fas fa-users"></i> Benutzerübersicht</a>
+                             <a class="dropdown-item" href="createUser.html"><i class="fas fa-user-plus"></i> Benutzer erstellen</a>
+                             <a class="dropdown-item" href="updateUser.html"><i class="fas fa-user-edit"></i> Benutzer aktualisieren</a>
+                             <a class="dropdown-item" href="deleteUser.html"><i class="fas fa-user-times"></i> Benutzer löschen</a>
+                         </div>
+                     </li>
+
+                     <!-- Eventverwaltung Dropdown -->
+                     <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" href="#" id="eventMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             <i class="fas fa-calendar-alt"></i> Eventverwaltung
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="eventMenu">
+                             <a class="dropdown-item" href="getEvents.html"><i class="fas fa-calendar-check"></i> Events anzeigen</a>
+                             <a class="dropdown-item admin-only" href="createEventForm.html"><i class="fas fa-plus-circle"></i> Event erstellen</a>
+                             <a class="dropdown-item admin-only" href="updateEventForm.html"><i class="fas fa-edit"></i> Event aktualisieren</a>
+                             <a class="dropdown-item admin-only" href="deleteEventForm.html"><i class="fas fa-trash-alt"></i> Event löschen</a>
+                         </div>
+                     </li>
+
+                     <!-- Abwesenheitsverwaltung Dropdown -->
+                     <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" href="#" id="absenceMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             <i class="fas fa-calendar-times"></i> Abwesenheitsverwaltung
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="absenceMenu">
+                             <a class="dropdown-item" href="absenceDashboard.html"><i class="fas fa-eye"></i> Abwesenheiten anzeigen</a>
+                             <a class="dropdown-item" href="createAbsenceForm.html"><i class="fas fa-plus-circle"></i> Abwesenheit hinzufügen</a>
+                             <a class="dropdown-item" href="deleteAbsenceForm.html"><i class="fas fa-trash-alt"></i> Abwesenheit löschen</a>
+                         </div>
+                     </li>
+
+                     <!-- Logout -->
+                     <li class="nav-item">
+                         <a class="nav-link" href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                     </li>
+                 </ul>
+             </div>
+         </nav>
+    
+<div class="container mt-5">
+    <h2 class="text-center">Events anzeigen</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titel</th>
+                <th>Startdatum</th>
+                <th>Enddatum</th>
+                <th>Verantwortlicher Nutzer</th>
+                <th>Ort</th>
+                <th>Beschreibung</th>
+            </tr>
+        </thead>
+        <tbody id="eventsTableBody">
+            <!-- Events werden hier dynamisch eingefügt -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal für Event-Details -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Event-Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Titel:</strong> <span id="modal-event-title"></span></p>
+                <p><strong>Startdatum:</strong> <span id="modal-event-start"></span></p>
+                <p><strong>Enddatum:</strong> <span id="modal-event-end"></span></p>
+                <p><strong>Verantwortlicher Nutzer:</strong> <span id="modal-event-user"></span></p>
+                <p><strong>Ort:</strong> <span id="modal-event-location"></span></p>
+                <p><strong>Beschreibung:</strong> <span id="modal-event-description"></span></p>
+
+                <!-- Google Maps Container für die Location -->
+                <div id="modal-map" style="width: 100%; height: 300px;"></div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script src="getEvents.js"></script>
-</body>
-</html>
+
+    
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <script src="../js/getEvents.js"></script>
+    </body>
+    </html>

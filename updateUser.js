@@ -1,6 +1,15 @@
 document.getElementById("updateUserForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
+    const token = localStorage.getItem("authToken");
+        const role = localStorage.getItem("userRole"); // Admin oder User
+
+        if (role !== 'admin') {
+            document.querySelectorAll('.admin-only').forEach(element => {
+                element.style.display = 'none';
+            });
+        }
+
     // Formulardaten erfassen
     const userId = document.getElementById("userId").value;
     const name = document.getElementById("name").value;
@@ -16,7 +25,7 @@ document.getElementById("updateUserForm").addEventListener("submit", function(ev
     const token = localStorage.getItem("authToken");
 
     // Fetch-API-Request
-    fetch(`https://deine-api-url.com/users/${userId}`, {
+    fetch(`https://SchichtplanerBackend-delightful-hartebeest-ka.apps.01.cf.eu01.stackit.cloud/api/users/${userId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

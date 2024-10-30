@@ -4,52 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benutzer aktualisieren</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/style.css">
+    
 
 </head>
 <body>
-    <!-- Navigationsleiste mit Dropdown-Menüs -->
-    <nav>
-        <a href="index.html">Kalender</a>
+   
+ <!-- Navigationsleiste -->
+ <nav class="navbar navbar-dark bg-primary" style="background-color: #e3f2fd;">
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+     </button>
 
-        <!-- Dropdown für Benutzerverwaltung -->
-        <div class="dropdown">
-            <button class="dropbtn">Benutzerverwaltung</button>
-            <div class="dropdown-content">
-                <a href="createUser.html">Benutzer erstellen</a>
-                <a href="updateUser.html">Benutzer aktualisieren</a>
-                <a href="deleteUser.html">Benutzer löschen</a>
-            </div>
+     <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav ml-auto">
+             <li class="nav-item">
+                 <a class="nav-link" href="../homepage.html"><i class="fas fa-home"></i> Home</a>
+             </li>
+             <!-- Benutzerverwaltung Dropdown (Admin-only) -->
+             <li class="nav-item dropdown admin-only">
+                 <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="fas fa-user"></i> Benutzerverwaltung
+                 </a>
+                 <div class="dropdown-menu" aria-labelledby="userMenu">
+                     <a class="dropdown-item" href="userOverview.html"><i class="fas fa-users"></i> Benutzerübersicht</a>
+                     <a class="dropdown-item" href="createUser.html"><i class="fas fa-user-plus"></i> Benutzer erstellen</a>
+                     <a class="dropdown-item" href="updateUser.html"><i class="fas fa-user-edit"></i> Benutzer aktualisieren</a>
+                     <a class="dropdown-item" href="deleteUser.html"><i class="fas fa-user-times"></i> Benutzer löschen</a>
+                 </div>
+             </li>
+
+             <!-- Eventverwaltung Dropdown -->
+             <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" id="eventMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="fas fa-calendar-alt"></i> Eventverwaltung
+                 </a>
+                 <div class="dropdown-menu" aria-labelledby="eventMenu">
+                     <a class="dropdown-item" href="getEvents.html"><i class="fas fa-calendar-check"></i> Events anzeigen</a>
+                     <a class="dropdown-item admin-only" href="createEventForm.html"><i class="fas fa-plus-circle"></i> Event erstellen</a>
+                     <a class="dropdown-item admin-only" href="updateEventForm.html"><i class="fas fa-edit"></i> Event aktualisieren</a>
+                     <a class="dropdown-item admin-only" href="deleteEventForm.html"><i class="fas fa-trash-alt"></i> Event löschen</a>
+                 </div>
+             </li>
+
+             <!-- Abwesenheitsverwaltung Dropdown -->
+             <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" id="absenceMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="fas fa-calendar-times"></i> Abwesenheitsverwaltung
+                 </a>
+                 <div class="dropdown-menu" aria-labelledby="absenceMenu">
+                     <a class="dropdown-item" href="absenceDashboard.html"><i class="fas fa-eye"></i> Abwesenheiten anzeigen</a>
+                     <a class="dropdown-item" href="createAbsenceForm.html"><i class="fas fa-plus-circle"></i> Abwesenheit hinzufügen</a>
+                     <a class="dropdown-item" href="deleteAbsenceForm.html"><i class="fas fa-trash-alt"></i> Abwesenheit löschen</a>
+                 </div>
+             </li>
+
+             <!-- Logout -->
+             <li class="nav-item">
+                 <a class="nav-link" href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+             </li>
+         </ul>
+     </div>
+ </nav>
+
+    <!-- Container für das Formular, um es zentrieren zu können -->
+    <div class="container mt-5">
+        <div class="form-container">
+            <h2 class="text-center mb-4">Benutzer aktualisieren</h2>
+            <form id="updateUserForm">
+                <div class="form-group">
+                    <label for="userId">Benutzer-ID:</label>
+                    <input type="number" class="form-control" id="userId" name="userId" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Neues Passwort:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">Benutzer aktualisieren</button>
+            </form>
         </div>
-
-        <!-- Dropdown für Eventverwaltung -->
-        <div class="dropdown">
-            <button class="dropbtn">Eventverwaltung</button>
-            <div class="dropdown-content">
-                <a href="createEventForm.html">Event erstellen</a>
-                <a href="updateEventForm.html">Event aktualisieren</a>
-                <a href="deleteEventForm.html">Event löschen</a>
-            </div>
-        </div>
-
-        <a href="login.html">Login</a>
-        <a href="logout.html">Logout</a>
-    </nav>
-    <div class="form-container">
-    <h2>Benutzer aktualisieren</h2>
-    <form id="updateUserForm">
-        <label for="userId">Benutzer-ID:</label>
-        <input type="number" id="userId" name="userId" required><br><br>
-
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-
-        <label for="password">Neues Passwort:</label>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <button type="submit">Benutzer aktualisieren</button>
-    </form>
-
-    <script src="updateUser.js"></script>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/updateUser.js"></script>
 </body>
 </html>

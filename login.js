@@ -1,40 +1,38 @@
-document.getElementById("loginForm").addEventListener("submit", function(event) {
+document.getElementById("loginForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    // Formulardaten erfassen
+
     const name = document.getElementById("name").value;
     const password = document.getElementById("password").value;
 
-    // JSON-Objekt für die Anfrage erstellen
-    const requestData = {
-        "name": name,
-        "password": password
-    };
+    try {
+        const response = await fetch("https://SchichtplanerBackend-delightful-hartebeest-ka.apps.01.cf.eu01.stackit.cloud/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, password })
+        });
 
-    // Fetch-API-Request
-    fetch("https://deine-api-url.com/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(requestData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.token) {
-            console.log("Token erhalten:", data.token);
-            console.log("Benutzerinformationen:", data.user);
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem("authToken", data.token); // Speichere das Token im localStorage
 
-            // Token speichern, z.B. in localStorage
-            localStorage.setItem("authToken", data.token);
-            alert(`Willkommen, ${data.user.name}! Du bist jetzt eingeloggt.`);
+            let userRole = data.user.role;
+
+            // Fester Admin Benutzer
+            if (name === "TestAdmin" && password === "TestAdmin") {
+                userRole = "admin";
+            }
+
+            localStorage.setItem("userRole", userRole); // Speichere die Benutzerrolle im localStorage
+
+            window.location.href = "homepage.html"; // Nach erfolgreichem Login zum Kalender weiterleiten
         } else {
-            console.error("Login fehlgeschlagen:", data);
-            alert("Login fehlgeschlagen. Bitte überprüfe deine Anmeldedaten.");
+            document.getElementById("loginError").style.display = "block";
         }
-    })
-    .catch(error => {
+    } catch (error) {
         console.error("Fehler beim Login:", error);
-        alert("Es gab ein Problem beim Login. Bitte versuche es erneut.");
-    });
+        document.getElementById("loginError").style.display = "block";
+    }
 });

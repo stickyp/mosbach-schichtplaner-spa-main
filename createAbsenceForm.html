@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event aktualisieren</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Abwesenheit erstellen</title>
     <script src="../js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
      <!-- Navigationsleiste -->
@@ -66,61 +66,55 @@
              </ul>
          </div>
      </nav>
-    
 
-    <div class="container mt-4">
-        <h2 class="text-center">Event aktualisieren</h2>
+    <!-- Container für das Formular, um es zentrieren zu können -->
+    <div class="container mt-5">
         <div class="form-container">
-            <form id="updateEventForm">
+            <h2 class="text-center mb-4">Abwesenheit hinzufügen</h2>
+            <form id="createAbsenceForm">
                 <div class="form-group">
-                    <label for="eventId">Event-ID:</label>
-                    <input type="number" class="form-control" id="eventId" name="eventId" required>
+                    <label for="absenceStart">Startdatum:</label>
+                    <input type="datetime-local" class="form-control" id="absenceStart" name="absenceStart" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="title">Titel:</label>
-                    <input type="text" class="form-control" id="title" name="title" required>
-                </div>
-                <div class="form-group">
-                    <label for="startDate">Startdatum:</label>
-                    <input type="date" class="form-control" id="startDate" name="startDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="startTime">Startzeit (optional):</label>
-                    <input type="time" class="form-control" id="startTime" name="startTime">
-                </div>
-                <div class="form-group">
-                    <label for="endDate">Enddatum:</label>
-                    <input type="date" class="form-control" id="endDate" name="endDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="endTime">Endzeit (optional):</label>
-                    <input type="time" class="form-control" id="endTime" name="endTime">
+                    <label for="absenceEnd">Enddatum:</label>
+                    <input type="datetime-local" class="form-control" id="absenceEnd" name="absenceEnd" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="assignedUserId">Zugewiesene Benutzer-ID:</label>
-                    <input type="number" class="form-control" id="assignedUserId" name="assignedUserId" required>
+                    <label for="reason">Grund:</label>
+                    <input type="text" class="form-control" id="reason" name="reason" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="location">Ort:</label>
-                    <input type="text" class="form-control" id="location" name="location" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="description">Beschreibung:</label>
-                    <textarea class="form-control" id="description" name="description" required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100">Event aktualisieren</button>
+                <button type="submit" class="btn btn-primary w-100 mt-3">Abwesenheit hinzufügen</button>
             </form>
         </div>
     </div>
+    <!-- Benachrichtigungs-Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">Benachrichtigung</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="notificationMessage">
+                <!-- Nachricht wird hier eingefügt -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="confirmButton" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- JavaScript-Bibliotheken für Bootstrap und die Seite -->
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/updateEvent.js"></script>
+
+    <!-- JavaScript-Abhängigkeiten -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/createAbsence.js"></script>
 </body>
 </html>

@@ -4,34 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Kalender</a>
-        <a href="createUser.html">Benutzer erstellen</a>
-        <a href="updateUser.html">Benutzer aktualisieren</a>
-        <a href="deleteUser.html">Benutzer löschen</a>
-        <a href="createEventForm.html">Event erstellen</a>
-        <a href="updateEventForm.html">Event aktualisieren</a>
-        <a href="deleteEventForm.html">Event löschen</a>
-        <a href="login.html">Login</a>
-        <a href="logout.html">Logout</a>
-    </nav>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Event-Kalender Freizeit ohne Grenzen</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-container p-4 shadow-sm rounded bg-white">
+                    <h2 class="text-center mb-4">Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
 
-    <div class="form-container">
-        <h2>Login</h2>
-    <form id="loginForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
+                        <div class="form-group">
+                            <label for="password">Passwort:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
 
-        <label for="password">Passwort:</label>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <button type="submit">Einloggen</button>
-    </form>
-
-    <script src="login.js"></script>
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Einloggen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript-Bibliotheken für Bootstrap --> 
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="../js/login.js"></script>
 </body>
 </html>
