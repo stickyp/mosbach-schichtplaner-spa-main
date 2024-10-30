@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Seed Initial User</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .btn {
+        background: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn:hover {
+        background: #45a049;
+    }
+
+    .message {
+        margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Seed Initial Admin User</h2>
+  <p>Click the button below to create an initial admin user in your backend.</p>
+  <button class="btn" onclick="seedUser()">Seed Initial User</button>
+  <div id="message" class="message"></div>
+</div>
+
+<script>
+  function seedUser() {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = "Seeding initial user, please wait...";
+
+      fetch('https://SchichtplanerBackend-delightful-hartebeest-ka.apps.01.cf.eu01.stackit.cloud/api/auth/seed-initial-user', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => {
+          if (response.ok) {
+              messageDiv.textContent = "Initial admin user created successfully.";
+          } else {
+              return response.text().then(text => {
+                  throw new Error(text || 'Error creating initial admin user.');
+              });
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          messageDiv.textContent = `Failed to create initial user: ${error.message}`;
+      });
+  }
+</script>
+
+</body>
+</html>
